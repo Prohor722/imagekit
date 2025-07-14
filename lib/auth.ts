@@ -1,4 +1,4 @@
-import { bcrypt } from 'bcryptjs';
+import  bcrypt from 'bcryptjs';
 import { NextAuthOptions } from "next-auth";
 import { dbConnect } from "@/lib/db";
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -13,7 +13,7 @@ export const authOptions:NextAuthOptions = {
                 password: {label: "password", type: "password"},
             },
             async authorize(credentials){
-                if(credentials?.email || credentials?.password){
+                if(!credentials?.email || !credentials?.password){
                     throw new Error("Email and password are required");
                 }
 
