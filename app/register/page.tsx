@@ -1,4 +1,5 @@
 "use client"
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 
@@ -49,6 +50,7 @@ const RegisterPage = () => {
         }
 
         try {
+            // loading state, error state, success state, debouncing the request
             const response = await fetch("/api/auth/register", {
                 method: "POST",
                 body: JSON.stringify({email, password}),
@@ -85,6 +87,9 @@ const RegisterPage = () => {
                 value={confirmPassword} onChange={(e) => handleChange(e, "confirmPassword")} />
             <button type='submit'>Register</button>
         </form>
+        <div>
+            <p>Already have an account? <Link href="/login">Login</Link></p>
+        </div>
     </div>
   )
 }
