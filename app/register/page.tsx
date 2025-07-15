@@ -8,6 +8,38 @@ const RegisterPage = () => {
     const [confirmPassword, setConfirmPassword] = useState("");
     const router = useRouter();
 
+    const mailValidator = (email:string) => {
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return regex.test(email);
+    }
+
+    const passwordValidator = (password:string) => {
+        const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        return regex.test(password);
+    }
+
+    const handleChange = (e:React.ChangeEvent<HTMLInputElement>,type:string) => {
+        if(type === "email") {
+            if(!mailValidator(e.target.value)) {
+                alert("Invalid email");
+                return;
+            }
+            setEmail(e.target.value);
+        } else if(type === "password") {
+            if(!passwordValidator(e.target.value)) {
+                alert("Invalid password");
+                return;
+            }
+            setPassword(e.target.value);
+        } else if(type === "confirmPassword") {
+            if(e.target.value !== password) {
+                alert("Passwords do not match");
+                return;
+            }
+            setConfirmPassword(e.target.value);
+        }
+    }
+
     const handleSubmit = async (e:React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
@@ -42,9 +74,15 @@ const RegisterPage = () => {
     <div>
         <h1 className='text-2xl font-bold text-center p-4 bg-blue-500 text-white'>Hello Brother</h1>
         <form onSubmit={handleSubmit}>
-            <input type="email" placeholder='Email' value={email} onChange={(e) => setEmail(e.target.value)} />
-            <input type="password" placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)} />
-            <input type="password" placeholder='Confirm Password' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+            <input 
+                type="email" placeholder='Email' value={email} 
+                onChange={(e) => handleChange(e, "email")} />
+            <input 
+                type="password" placeholder='Password' value={password} 
+                onChange={(e) => handleChange(e, "password")} />
+            <input 
+                type="password" placeholder='Confirm Password' 
+                value={confirmPassword} onChange={(e) => handleChange(e, "confirmPassword")} />
             <button type='submit'>Register</button>
         </form>
     </div>
