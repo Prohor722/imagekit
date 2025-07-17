@@ -1,45 +1,17 @@
 "use client"
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react'
+import React from 'react'
+import { Validators } from '../methods/validator';
 
 const RegisterPage = () => {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
     const router = useRouter();
-
-    const mailValidator = (email:string) => {
-        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return regex.test(email);
-    }
-
-    const passwordValidator = (password:string) => {
-        const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-        return regex.test(password);
-    }
-
-    const handleChange = (e:React.ChangeEvent<HTMLInputElement>,type:string) => {
-        if(type === "email") {
-            if(!mailValidator(e.target.value)) {
-                alert("Invalid email");
-                return;
-            }
-            setEmail(e.target.value);
-        } else if(type === "password") {
-            if(!passwordValidator(e.target.value)) {
-                alert("Invalid password");
-                return;
-            }
-            setPassword(e.target.value);
-        } else if(type === "confirmPassword") {
-            if(e.target.value !== password) {
-                alert("Passwords do not match");
-                return;
-            }
-            setConfirmPassword(e.target.value);
-        }
-    }
+    const {
+        email,
+        password,
+        confirmPassword,
+        handleChange,
+      } = Validators();
 
     const handleSubmit = async (e:React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
